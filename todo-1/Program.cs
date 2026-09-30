@@ -1,69 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// 1. "Tache" au singulier : représente UNE SEULE tâche
-class Tache
+class TaskItem
 {
-    public string Nom { get; set; }
-    public string Statut { get; set; }
+    public string Name { get; set; }
+    public string Status { get; set; }
 
-    public Tache(string nom, string statut = "[ ]")
+    public TaskItem(string name, string status = "[ ]")
     {
-        Nom = nom;
-        Statut = statut;
+        Name = name;
+        Status = status;
     }
 
-    public void AjouterUneTache(Tache tacheAAjouter)
+    public void AddTask(TaskItem taskToAdd)
     {
-        GestionnaireDeTaches gestionnaireEphemere = new GestionnaireDeTaches();
-        gestionnaireEphemere.TachesEnregistrees.Add(tacheAAjouter);
+        TaskManager tempManager = new TaskManager();
+        tempManager.TaskList.Add(taskToAdd);
     }
 }
-
-// 2. Renommé pour éviter le conflit avec System.Collections.Generic.List
-class GestionnaireDeTaches
+class TaskManager
 {
-    // Le conteneur s'appelle explicitement TachesEnregistrees
-    public List<Tache> TachesEnregistrees = new List<Tache>();
+    public List<TaskItem> TaskList = new List<TaskItem>();
 }
-
 class Program
 {
     static void Main()
     {
-        bool stopperProgramme = false;
-
-        while (stopperProgramme == false)
+        bool stopProgram = false;
+        while (stopProgram == false)
         {
-            string choixMenu = Console.ReadLine() ?? "2";
-
-            if (choixMenu == "1")
+            string userChoice = Console.ReadLine() ?? "2";
+            if (userChoice == "1")
             {
                 Console.WriteLine("App start");
-
-                string nomSaisi = Console.ReadLine() ?? "";
-                string statutSaisi = Console.ReadLine() ?? "";
-
-                // Instanciation claire d'une seule tâche
-                Tache nouvelleTache = new Tache(nomSaisi, statutSaisi);
-
-                // Instanciation de la liste
-                GestionnaireDeTaches monGestionnaire = new GestionnaireDeTaches();
-                monGestionnaire.TachesEnregistrees.Add(nouvelleTache);
-
-                // La boucle parcourt "chaqueTache" dans "TachesEnregistrees"
-                foreach (Tache chaqueTache in monGestionnaire.TachesEnregistrees)
+                string inputName = Console.ReadLine() ?? "";
+                string inputStatus = Console.ReadLine() ?? "";
+                TaskItem newTask = new TaskItem(inputName, inputStatus);
+                TaskManager taskManager = new TaskManager();
+                taskManager.TaskList.Add(newTask);
+                foreach (TaskItem currentTask in taskManager.TaskList)
                 {
-                    Console.WriteLine($"Nom de la taches : {chaqueTache.Nom}, Status : {chaqueTache.Statut}");
+                    Console.WriteLine($"Nom de la taches : {currentTask.Name}, Status : {currentTask.Status}");
                 }
             }
 
-            if (choixMenu == "2")
+            if (userChoice == "2")
             {
-                stopperProgramme = true;
+                stopProgram = true;
             }
         }
-
         Console.WriteLine("App stop");
     }
 }
