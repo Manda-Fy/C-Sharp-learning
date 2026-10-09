@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="Algorithme-C#.csproj" />
+  <Project Path="infiltration/infiltration.csproj" />
   <Project Path="todo-1/todo-1.csproj" />
 </Solution>
